@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <button @click='increment'>change</button>
+            <span>{{count}}</span>
+            <span>{{msg}}</span>
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuex"></script> -->
+    <script src="m-vuex.js"></script>
+    <script>
+
+       let Store = Vuex.Store;
+
+        let state = {count:10};
+        let mutations = {
+            increment(state,val){
+                console.log(state)
+                state.count = val;
+            }
+        };
+        let actions = {
+            increment(
+                {commit},val){
+                commit('increment',val)
+            }
+        };
+        let getters = {
+            count(state){
+                return state.count+'次';
+            }
+        };
+
+        let store = new Store({
+            state,
+            mutations,
+            actions,
+            getters
+        })
+
+        new Vue({
+            el:'#app',
+            // state
+            data () {
+            return {
+                
+            }
+            },
+            computed: {
+                count(){
+                    return this.$store.state.count
+                },
+                msg(){
+                    return this.$store.getters.count
+                }
+            },
+            created(){
+            },
+            // actions
+            methods: {
+            increment () {
+                this.$store.dispatch('increment',2)
+            }
+            },
+            store
+        })
+    </script>
+</body>
+</html>
